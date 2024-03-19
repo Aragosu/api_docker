@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:15
+    container_name: db_app
+    command: -p 1221
+    expose:
+      - 1221
+    env_file:
+      - .env-non-dev
+
+  redis:
+    image: redis:7
+    container_name: redis_app
+    command: --port 5370
+    expose:
+      - 5370
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: elestio/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "aragos@bk.ru"
+      PGADMIN_DEFAULT_PASSWORD: "Elena_194625"
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+
+  app:
+    build:
+      context: .
+    env_file:
+      - .env-non-dev
+    container_name: fastapi_app
+#    command: ["/fastapi_app/docker/app.sh"]
+    ports:
+      - 9999:8000
+    depends_on:
+      - db
+      - redis
