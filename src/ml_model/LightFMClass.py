@@ -5,6 +5,11 @@ import pandas as pd
 import pickle
 
 
+genre_list = ["Action","Adventure","Animation","Children's","Comedy",
+              "Crime","Documentary","Drama","Fantasy","Film-Noir",
+              "Horror","Musical","Mystery","Romance","Sci-Fi",
+              "Thriller","War","Western"]
+
 class LightFMRecSyc():
 
     def __init__(self, model=None, RecSycFilms=None, IMDb_df=None, Genre=None):
@@ -68,8 +73,12 @@ with open("ml_model/movies_to_predict", "rb") as fp:
 ClassRecSyc = pickle.load(open('ml_model/model_pred.pkl', 'rb'))
 
 def model_recomend(id, name_genre):
+    if name_genre is None:
+        name_genre = None
+    else:
+        name_genre = name_genre.title()
     lfm = LightFMRecSyc(model=ClassRecSyc,
                         RecSycFilms=RecSycFilms,
                         IMDb_df=moveis_fin,
-                        Genre=name_genre.title())
+                        Genre=name_genre)
     return lfm.recommend(user_id=[id], k=5, movies_to_predict=movies_to_predict)
