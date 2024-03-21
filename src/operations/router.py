@@ -17,7 +17,7 @@ async def give_rec(user: User = Depends(current_user)):
 @router.post("/rec_genre_auth")
 async def give_rec_genre(genre: str, user: User = Depends(current_user)):
     if genre.title() not in genre_list:
-        raise HTTPException(status_code=404, detail="wrong genre")
+        raise HTTPException(status_code=404, detail=f"Неправильный жанр, вы можете выбрать: {genre_list}")
     return model_recomend(user.id, genre)
 
 
@@ -30,5 +30,5 @@ async def give_rec():
 @router2.post("/rec_genre_nonauth")
 async def give_rec_genre(genre: str):
     if genre.title() not in genre_list:
-        raise HTTPException(status_code=404, detail="wrong genre")
+        raise HTTPException(status_code=404, detail=f"Неправильный жанр, вы можете выбрать: {genre_list}")
     return model_recomend(123456789, genre)

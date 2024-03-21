@@ -5,7 +5,7 @@ import pandas as pd
 import pickle
 
 
-genre_list = ["Action","Adventure","Animation","Children's","Comedy",
+genre_list = ["Action","Adventure","Animation","Comedy",
               "Crime","Documentary","Drama","Fantasy","Film-Noir",
               "Horror","Musical","Mystery","Romance","Sci-Fi",
               "Thriller","War","Western"]
