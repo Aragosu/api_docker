@@ -66,6 +66,8 @@ class LightFMRecSyc():
 
 RecSycFilms = pd.read_csv('ml_model/RecSycFilms.csv', sep='\t', index_col=0)
 moveis_fin = pd.read_csv('ml_model/IMDb.csv', sep='\t', index_col=0)
+# облегченная версия данных, используется для хостинга на рендере
+moveis_fin_light = eval(open("ml_model/IMDb_light.txt", mode="r", encoding="UTF-8").read())
 
 with open("ml_model/movies_to_predict", "rb") as fp:
     movies_to_predict = pickle.load(fp)
@@ -74,11 +76,19 @@ ClassRecSyc = pickle.load(open('ml_model/model_pred.pkl', 'rb'))
 
 def model_recomend(id, name_genre):
     if name_genre is None:
-        name_genre = None
+        if int(id) == 123456789:
+            name_genre = 'all_rec'
+        else:
+            name_genre - None
     else:
         name_genre = name_genre.title()
-    lfm = LightFMRecSyc(model=ClassRecSyc,
-                        RecSycFilms=RecSycFilms,
-                        IMDb_df=moveis_fin,
-                        Genre=name_genre)
-    return lfm.recommend(user_id=[id], k=5, movies_to_predict=movies_to_predict)
+
+    if int(id) == 123456789:
+        result = moveis_fin_light.get(name_genre)
+    else:
+        lfm = LightFMRecSyc(model=ClassRecSyc,
+                            RecSycFilms=RecSycFilms,
+                            IMDb_df=moveis_fin,
+                            Genre=name_genre)
+        result = lfm.recommend(user_id=[id], k=5, movies_to_predict=movies_to_predict)
+    return result

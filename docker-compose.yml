@@ -20,8 +20,8 @@ services:
     container_name: pgadmin_container
     image: elestio/pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: "aragos@bk.ru"
-      PGADMIN_DEFAULT_PASSWORD: "Elena_194625"
+      PGADMIN_DEFAULT_EMAIL: "teat_user@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "test_12345"
     ports:
       - 5050:80
     depends_on:
@@ -33,7 +33,6 @@ services:
     env_file:
       - .env-non-dev
     container_name: fastapi_app
-#    command: ["/fastapi_app/docker/app.sh"]
     ports:
       - 9999:8000
     depends_on:
